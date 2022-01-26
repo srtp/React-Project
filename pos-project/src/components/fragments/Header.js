@@ -1,7 +1,16 @@
 import React from "react";
+import * as loginActions from "./../../actions/login.action";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Header(props) {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
   const { toggleDrawer } = props;
+
+  const navigateToLogout = () => {
+    return navigate("/login");
+  };
   return (
     <div>
       <nav className="navbar is-link">
@@ -42,11 +51,14 @@ function Header(props) {
             <div className="navbar-item">
               <div className="field is-grouped">
                 <p className="control">
-                  <a
-                    className="button is-light is-small"
-                    href="https://github.com/jgthms/bulma/releases/download/0.9.3/bulma-0.9.3.zip"
-                  >
-                    <span>Login</span>
+                  <a className="button is-light is-small">
+                    <span
+                      onClick={() => {
+                        dispatch(loginActions.logout({ navigateToLogout }));
+                      }}
+                    >
+                      Logout
+                    </span>
                   </a>
                 </p>
               </div>
