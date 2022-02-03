@@ -40,6 +40,12 @@ export const logout = ({ navigateToLogout }) => {
   };
 };
 
+export const setSuccess = () => {
+  return (dispatch) => {
+    dispatch(setStateToSuccess("ok"));
+  };
+};
+
 export const hasError = (payload) => {
   return (dispatch) => {
     dispatch(setStateToFailed(payload));

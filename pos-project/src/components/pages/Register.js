@@ -3,14 +3,27 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { apiUrl, server } from "../../Constants";
-import loginReducer from "./../../reducers/login.reducer";
+
 import * as loginActions from "./../../actions/login.action";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 function Register() {
   const loginReducer = useSelector(({ loginReducer }) => loginReducer);
   const dispatch = useDispatch();
   let navigate = useNavigate();
+
+  const alertSuccess = () => {
+    const alert = Swal.fire({
+      icon: "success",
+      title: "Your register has been saved",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    const goPage = navigate("/stock");
+
+    return { alert, goPage };
+  };
 
   function showForm({
     values,
@@ -111,7 +124,8 @@ function Register() {
                     setSubmitting(false);
                     // alert(JSON.stringify(result.data));
                     const { data } = result;
-                    if (data === "ok") {
+                    if (data.result === "ok") {
+                      dispatch(loginActions.setSuccess(alertSuccess()));
                     } else {
                       dispatch(
                         loginActions.hasError(
@@ -129,6 +143,11 @@ function Register() {
             </Formik>
           </div>
         </div>
+      </div>
+      <div>
+        {/* {!loginReducer.error && loginReducer.result === "ok" && (
+          <div></div>
+        )} */}
       </div>
     </div>
   );
